@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  db:
+    image: mysql:8
+    #platform: linux/x86_64 # M1で必要。それ以外の場合は削除する。
+    container_name: jupyter_notebook_mysql
+    hostname: jupyter_notebook_mysql_docker
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/logs:/var/log/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - TZ=${TZ}
+    ports:
+      - ${DB_PORT}:3306
+
+volumes:
+  db-store:
+
